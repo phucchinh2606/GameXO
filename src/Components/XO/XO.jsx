@@ -7,7 +7,7 @@ let data = ["", "", "", "", "", "", "", "", ""];
 
 const XO = () => {
   let [count, setCount] = useState(0);
-  let [lock, setLock] = useState(false);
+  let [lock, setLock] = useState(false); //set lock xem ai win thì lock ko chơi tiêp nữa :v
   let titleRef = useRef(null);
 
   let box1 = useRef(null);
@@ -24,21 +24,23 @@ const XO = () => {
 
   const toggle = (e, num) => {
     if (lock) {
-      return 0;
+      return 0; //nếu lock rồi thì ko bấm được x 0 nữa
     }
     if (count % 2 == 0) {
+      //x lúc nào cũng đi trước bởi count ban đầu =0
       e.target.innerHTML = `<img src=${cross_icon} alt="" />`;
-      data[num] = "x";
-      setCount(++count);
+      data[num] = "x"; //num ở đây là vị trí của các box, 3x3 bắt đầu lần lượt từ trái sang phải từ trên xuống dưới
+      setCount(++count); //tăng count lên 1 thì lúc đó chuyển thành o
     } else {
       e.target.innerHTML = `<img src=${circle_icon} alt="" />`;
       data[num] = "o";
       setCount(++count);
     }
-    checkWin();
+    checkWin(); //mỗi lần bấm thì check win
   };
 
   const checkWin = () => {
+    //check win này là theo luật xo, 3 x hoặc o theo các đường thẳng hoặc chéo
     if (data[0] === data[1] && data[1] === data[2] && data[2] != "") {
       won(data[2]);
     } else if (data[3] === data[4] && data[4] === data[5] && data[5] != "") {
@@ -59,8 +61,10 @@ const XO = () => {
   };
 
   const won = (winner) => {
-    setLock(true);
+    //hàm win
+    setLock(true); //win thì lock ko chơi nữa
     if (winner === "x") {
+      //x win thì render
       titleRef.current.innerHTML = `Congratulations <img src=${cross_icon} alt=""/> win`;
     } else {
       titleRef.current.innerHTML = `Congratulations <img src=${circle_icon} alt=""/> win`;
@@ -68,10 +72,12 @@ const XO = () => {
   };
 
   const reset = () => {
-    setLock(false);
-    data = ["", "", "", "", "", "", "", "", ""];
-    titleRef.current.innerHTML = `Game XO in <span>ReactJs</span>`;
+    //hàm reset
+    setLock(false); //reset thì bỏ lock để bấm
+    data = ["", "", "", "", "", "", "", "", ""]; //set lại mảng rỗng như ban đầu
+    titleRef.current.innerHTML = `Game XO in <span>ReactJs</span>`; //title như ban đầu
     box_array.map((e) => {
+      //box_arr về lại chuỗi rỗng, ko có x và o ở trong
       e.current.innerHTML = "";
     });
   };
@@ -87,7 +93,7 @@ const XO = () => {
             className="boxes"
             ref={box1}
             onClick={(e) => {
-              toggle(e, 0);
+              toggle(e, 0); //ví dụ num ở đây =0 thì set data[0] thành chuỗi tương ứng hàm toggle.
             }}
           ></div>
           <div
